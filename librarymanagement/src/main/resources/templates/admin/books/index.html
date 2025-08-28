@@ -18,7 +18,7 @@
                     <!-- Download template -->
                     <a href="#" onclick="downloadAndRedirect()" class="btn btn-warning" th:text="#{table.button-download}"></a>
                     <!-- Import form -->
-                    <form th:action="@{/admin/book/import}" method="post" enctype="multipart/form-data" id="importForm">
+                    <form th:action="@{/admin/books/import}" method="post" enctype="multipart/form-data" id="importForm">
                         <input type="file" name="file" accept=".xls,.xlsx" class="d-none" id="fileInput" required>
                         <label for="fileInput" class="btn btn-primary" th:text="'+ ' + #{table.button-add}"></label>
                     </form>

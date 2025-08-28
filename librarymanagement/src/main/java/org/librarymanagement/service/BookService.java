@@ -16,5 +16,5 @@ public interface BookService {
     BookDetailResponse createBookDetailResponseBySlug(String slug);
     Book findBookBySlug(String slug);
     void importBooksFromExcel(MultipartFile file) throws IOException;
-    List<BookResponseDto> searchBooks(String keyword);
+    Page<BookResponseDto> searchBooks(String keyword, Pageable pageable);
 }

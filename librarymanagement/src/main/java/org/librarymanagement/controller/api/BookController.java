@@ -60,12 +60,19 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseObject> searchBooks(@RequestParam String keyword, Locale locale) {
-        List<BookResponseDto> books = bookService.searchBooks(keyword);
+    public ResponseEntity<PageResponse<BookResponseDto>> searchBooks(@RequestParam String keyword, Pageable pageable, Locale locale) {
+        Page<BookResponseDto> books = bookService.searchBooks(keyword, pageable);
 
         String successMessage = messageSource.getMessage("book.query.success", null, locale);
-        ResponseObject responseObject = new ResponseObject(successMessage, HttpStatus.OK.value(), books);
 
-        return ResponseEntity.ok(responseObject);
+        return ResponseEntity.ok(new PageResponse<>(
+                successMessage,
+                HttpStatus.OK.value(),
+                books.getContent(),
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages()
+        ));
     }
 }

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
     Optional<Publisher> findByName(String name);
+    Optional<Publisher> findBySlug(String slug);
 }
