@@ -3,6 +3,8 @@ package org.librarymanagement.repository;
 import jakarta.persistence.LockModeType;
 import org.librarymanagement.entity.Book;
 import org.librarymanagement.entity.BookVersion;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +20,6 @@ public interface BookVersionRepository extends JpaRepository<BookVersion,Integer
     @Query("SELECT bv FROM BookVersion bv WHERE bv.book.id = :bookId AND bv.status = :status")
     List<BookVersion> findAvailableBooksByBookIds(Integer bookId, @Param("status") int status);
 
+    @Query("SELECT bv FROM BookVersion bv WHERE bv.book.id = :bookId")
+    Page<BookVersion> findBookVersionsByBookId(@Param("bookId") Integer bookId, Pageable pageable);
 }

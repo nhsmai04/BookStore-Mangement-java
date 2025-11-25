@@ -4,6 +4,14 @@
 
 <head layout:fragment="head">
     <title>Tất cả Sách</title>
+<style>
+    .main-author-label {
+        background-color: #ffe082; /* Highlight color */
+        border-radius: 4px;
+        font-weight: bold;
+    }
+</style>
+
 </head>
 <body>
 <div layout:fragment="content">
@@ -12,86 +20,145 @@
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="h3 mb-0">
-                    <strong th:text="#{bookedit.title}"></strong>
+                    <strong th:text="#{bookedit.title}">Sửa thông tin sách</strong>
                 </h1>
             </div>
 
-            <div class="row">
-                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
-                    <div class="card flex-fill py-4 px-4">
-                        <form class="row">
-                            <!-- Cột bên trái: form input -->
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="bookName" class="form-label" th:text="#{form.bookname}"></label>
-                                    <input type="text" class="form-control" id="bookName" placeholder="Nhập tên sách">
-                                </div>
+            <!-- Tabs for Book Info and Book Versions -->
+            <ul class="nav nav-tabs" id="bookEditTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            data-bs-toggle="tab"
+                            data-bs-target="#book-info"
+                            type="button">
+                        Thông tin sách
+                    </button>
+                </li>
 
-                                <div class="mb-3">
-                                    <label for="authorName" class="form-label" th:text="#{form.author}"></label>
-                                    <select id="authorName" class="form-select">
-                                        <option selected disabled>-- Chọn tác giả chính</option>
-                                        <option>Lý Tuấn Văn</option>
-                                        <option>Bang Nguyễn Quỳnh Anh</option>
-                                        <option>Nguyễn Vũ Nguyên</option>
-                                        <option>Trần Thị Phương Thảo</option>
-                                    </select>
-                                </div>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       th:href="@{'/admin/books/book-version/edit?bookId=' + ${book.id}}">
+                        Bản sao sách
+                    </a>
 
-                                <div class="mb-3">
-                                    <label for="coAuthorName" class="form-label" th:text="#{form.coauthor}"></label>
-                                    <select id="coAuthorName" class="form-select" multiple>
-                                        <option selected disabled>-- Chọn đồng tác giả</option>
-                                        <option>Lý Tuấn Văn</option>
-                                        <option>Bang Nguyễn Quỳnh Anh</option>
-                                        <option>Nguyễn Vũ Nguyên</option>
-                                        <option>Trần Thị Phương Thảo</option>
-                                    </select>
-                                </div>
 
-                                <div class="mb-3">
-                                    <label for="publisher" class="form-label" th:text="#{form.publisher}"></label>
-                                    <select id="publisher" class="form-select">
-                                        <option selected disabled>-- Chọn nhà xuất bản</option>
-                                        <option>Nhà xuất bản Trẻ</option>
-                                        <option>Nhà xuất bản Kim Đồng</option>
-                                        <option>Nhà xuất bản Tổng hợp thành phố Hồ Chí Minh</option>
-                                        <option>Nhà xuất bản Hội Nhà văn</option>
-                                    </select>
-                                </div>
+                </li>
+            </ul>
 
-                                <div class="mb-3">
-                                    <label for="publishDate" class="form-label" th:text="#{form.day-publisher}"></label>
-                                    <input type="date" class="form-control" id="publishDate">
-                                </div>
+            <div class="tab-content mt-3">
+                <!-- TAB 1 - Book Info -->
+                <form class="row mt-4" th:action="@{/admin/books/{id}/edit(id=${book.id})}" th:object="${book}" method="post">
+                    <!-- Cột bên trái: form input -->
+                    <div class="col-md-8">
+                        <!-- Tên sách -->
+                        <div class="mb-3">
+                            <label for="bookName" class="form-label">Tên sách</label>
+                            <input type="text" class="form-control" id="bookName" th:field="*{title}" placeholder="Nhập tên sách">
+                        </div>
 
-                                <div class="mb-3">
-                                    <label for="bookDescription" class="form-label" th:text="#{form.description}"></label>
-                                    <textarea class="form-control" id="bookDescription" rows="3" placeholder="Nhập mô tả sách"></textarea>
-                                </div>
+                        <!-- Mô tả sách -->
+                        <div class="mb-3">
+                            <label for="bookDescription" class="form-label">Mô tả sách</label>
+                            <textarea class="form-control" id="bookDescription" th:field="*{description}" rows="3" placeholder="Nhập mô tả sách"></textarea>
+                        </div>
 
-                                <div class="mb-3">
-                                    <label for="totalQuantity" class="form-label" th:text="#{form.total-quantity}"></label>
-                                    <input type="number" class="form-control" id="totalQuantity" placeholder="Nhập số lượng">
-                                </div>
+                        <!-- Ngày xuất bản -->
+                        <input type="date"
+                               class="form-control"
+                               id="publishDate"
+                               name="publishedDay"
+                               th:value="${#temporals.format(book.publishedDay, 'yyyy-MM-dd')}">
 
-                                <button type="submit" class="btn btn-primary">Lưu</button>
+                        <!-- Số lượng -->
+                        <div class="mb-3">
+                            <label for="totalQuantity" class="form-label">Số lượng</label>
+                            <input type="number" class="form-control" id="totalQuantity" th:field="*{totalQuantity}">
+                        </div>
+
+                        <!-- Tổng số hiện có -->
+                        <div class="mb-3">
+                            <label for="totalCurrent" class="form-label">Số lượng hiện có</label>
+                            <input type="number" class="form-control" id="totalCurrent" th:field="*{totalCurrent}">
+                        </div>
+
+                        <!-- Tác giả -->
+                        <!-- Button to open modal -->
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#authorModal">
+                            Chọn tác giả
+                        </button>
+
+                        <!-- Selected authors view -->
+                        <div id="selectedAuthors" class="mb-3"></div>
+                        <!-- Hidden inputs for selected author names -->
+
+                        <div id="authorHiddenInputs">
+                            <input type="hidden"
+                                   th:each="name : *{authorName}"
+                                   name="authorName"
+                                   th:value="${name}">
+                        </div>
+
+                        <!-- Author selection modal -->
+                        <div class="modal fade" id="authorModal">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Chọn tác giả</h5>
+                                        <!-- Display selected authors -->
+
+                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-6" th:each="author : ${authors}">
+                                                <div class="form-check">
+                                                    <input class="form-check-input author-checkbox"
+                                                           type="checkbox"
+                                                           th:value="${author.name}"
+                                                           th:checked="${book.authorName.contains(author.name)}">
+                                                    <label class="form-check-label"
+                                                           th:text="${author.name}"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-primary" onclick="applyAuthors()" data-bs-dismiss="modal">Xác nhận</button>
+                                    </div>
+
+                                </div>
                             </div>
+                        </div>
 
-                            <!-- Cột bên phải: upload ảnh -->
-                            <div class="col-md-4 text-center">
-                                <div class="mb-3">
-                                    <label for="bookImage" class="form-label" th:text="#{form.bookimage}">Ảnh sách</label>
-                                    <input class="form-control" type="file" id="bookImage" accept="image/*" onchange="previewImage(event)">
-                                </div>
-                                <img id="preview" src="/public/images/default-book.jpg" alt="Preview" class="img-detail rounded border" style="max-height: 300px; object-fit: contain;">
-                            </div>
-                        </form>
+                        <!-- Nhà xuất bản -->
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Nhà xuất bản</label>
+                            <input type="text" class="form-control" id="publisher" th:field="*{publisherName}" placeholder="Nhà xuất bản">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Lưu</button>
                     </div>
-                </div>
+
+                    <!-- Cột bên phải: upload ảnh -->
+                    <div class="col-md-4 text-center">
+                        <div class="mb-3">
+                            <label for="bookImage" class="form-label">Ảnh sách</label>
+                            <input class="form-control" type="file" id="bookImage" accept="image/*" onchange="previewImage(event)">
+                            <img id="preview" th:src="@{${book.image}}" alt="Preview" class="img-detail rounded border mt-2" style="max-height: 300px; object-fit: contain;">
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
+    <script th:src="@{/public/js/admin/bookdetail.js}"></script>
 </div>
+
 </body>
 </html>

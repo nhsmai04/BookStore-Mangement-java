@@ -1,33 +1,163 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
 
 <head layout:fragment="head">
-    <title>Tất cả Người dùng</title>
+    <title>Danh sách người dùng</title>
 </head>
+
 <body>
 <div layout:fragment="content">
-    <div class="content">
-        <div class="container-fluid p-0">
+    <div class="container-fluid p-0">
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="h3 mb-0">
-                    <strong th:text="#{userlist.title}"></strong>
-                </h1>
-                <a th:href="@{/admin/books/add}" class="btn btn-primary" th:text="'+ ' + #{table.button-add}"></a>
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3 mb-0">
+                <strong>Danh sách người dùng</strong>
+            </h1>
+            <a th:href="@{/admin/users/add}" class="btn btn-primary">
+                + Thêm người dùng
+            </a>
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Tên</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="user : ${userPage.content}">
+                        <!-- Name -->
+                        <td th:text="${user.name}"></td>
+
+                        <!-- Username -->
+                        <td th:text="${user.username}"></td>
+
+                        <!-- Email -->
+                        <td th:text="${user.email}"></td>
+
+                        <!-- Phone -->
+                        <td th:text="${user.phone}"></td>
+
+                        <!-- Activated Status -->
+                        <td>
+                            <span th:if="${user.activatedStatus}"
+                                  class="badge bg-success">
+                                Đã kích hoạt
+                            </span>
+                            <span th:unless="${user.activatedStatus}"
+                                  class="badge bg-secondary">
+                                Chưa kích hoạt
+                            </span>
+                        </td>
+
+                        <td class="d-none d-xl-table-cell text-center" style="padding: 8px;">
+                            <select class="form-select d-inline w-auto user-role-select"
+                                    th:if="${#authorization.expression('hasRole(''MANAGER'')')}"
+                                    th:data-user-id="${user.id}"
+                                    th:data-current-role="${user.role}">
+
+                                <option value="1"
+                                        th:selected="${user.role == 1 }">ADMIN</option>
+
+                                <option value="2"
+                                        th:selected="${user.role == 2 }">USER</option>
+
+                                <option value="3"
+                                        th:selected="${user.role == 3 }">MANAGER</option>
+                            </select>
+
+                            <button type="button" class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmDeleteModal"
+                                    th:text="#{table.button-delete}">
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
-                    <div class="card flex-fill">
-                        <div th:replace="~{fragments/table :: table(#{table.name}, #{table.username},
-                            #{table.mail}, #{table.status}, #{table.button-view}, #{table.button-block},
-                            #{table.button-delete})}"></div>
-                    </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+
+                <!-- Previous -->
+                <li class="page-item"
+                    th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link"
+                       aria-label="Previous"
+                       th:href="@{/admin/authors(
+                    page=${currentPage - 1},
+                    size=${size}
+               )}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <!-- Page numbers -->
+                <li class="page-item"
+                    th:if="${totalPages > 0}"
+                    th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? ' active'">
+                    <a class="page-link"
+                       th:text="${i + 1}"
+                       th:href="@{/admin/authors(
+                    page=${i},
+                    size=${size}
+               )}">
+                    </a>
+                </li>
+
+                <!-- Trường hợp chỉ có 1 trang -->
+                <li class="page-item active"
+                    th:if="${totalPages == 0}">
+                    <a class="page-link"
+                       th:text="1"
+                       th:href="@{/admin/authors(
+                                                    page=0,
+                                                    size=${size}
+                                                    )}">
+                    </a>
+                </li>
+
+                <!-- Next -->
+                <li class="page-item"
+                    th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       aria-label="Next"
+                       th:href="@{/admin/authors(
+                                                    page=${currentPage + 1},
+                                                    size=${size}
+                                                    )}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="successToast" class="toast text-bg-success text-white" role="alert">
+                <div class="toast-body" >
+                    Cập nhật role thành công
                 </div>
             </div>
         </div>
     </div>
+
+    <script th:src="@{/public/js/admin/user.js}"></script>
 </div>
 </body>
 </html>

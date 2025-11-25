@@ -27,23 +27,25 @@
 
                             <!-- Cột thông tin sách -->
                             <div class="col-md-8">
-                                <h2>Tên sách</h2>
+                                <h2 th:text="${book.title}"></h2>
                                 <p class="mb-1">
                                     <strong th:text="#{book.detail.author} + ':'"></strong>
-                                    <span>Tên tác giả</span>
+                                    <span th:each="author : ${book.authorName}">
+                                        <span th:text="${author}"></span>
+                                    </span>
                                 </p>
                                 <p class="mb-1">
                                     <strong th:text="#{book.detail.publisher} + ':'"></strong>
-                                    <span>NXB</span>
+                                    <span th:text="${book.publisherName}"></span>
                                 </p>
                                 <p class="mb-3">
                                     <strong th:text="#{book.detail.publishedDate} + ':'"></strong>
-                                    <span>01/01/2023</span>
+                                    <span th:text="${book.publishedDay}"></span>
                                 </p>
 
                                 <h5 th:text="#{book.detail.description}"></h5>
                                 <p>
-                                    Đây là phần mô tả về cuốn sách, nội dung hiển thị ở đây.
+                                    <span th:text="${book.description}"></span>
                                 </p>
                             </div>
                         </div>
@@ -59,43 +61,27 @@
                                         <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.code}"></th>
                                         <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.language}"></th>
                                         <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.format}"></th>
-                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.quantity}"></th>
                                         <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.status}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td class="d-none d-xl-table-cell text-center">1</td>
-                                        <td class="d-none d-xl-table-cell text-center">B001-VN</td>
+                                    <tr th:each="bookversion, stat : ${bookVersions}">
+                                        <td class="d-none d-xl-table-cell text-center" th:text="${stat.index + 1}"></td>
+                                        <td class="d-none d-xl-table-cell text-center" th:text="${bookversion.id}"></td>
                                         <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
                                         <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
-                                        <td class="d-none d-xl-table-cell text-center">50</td>
                                         <td class="d-none d-xl-table-cell text-center">
-                                            <span class="badge bg-danger">Đã mất</span>
+                                        <span th:switch="${bookversion.status}">
+                                            <span th:case="1" class="badge bg-success">Có sẵn</span>
+                                            <span th:case="0" class="badge bg-danger">Hỏng / Mất</span>
+                                            <span th:case="2" class="badge bg-warning text-dark">Đang mượn</span>
+                                            <span th:case="3" class="badge bg-primary">Đang đặt trước</span>
+                                            <span th:case="4" class="badge bg-secondary">Đang sửa</span>
+                                            <span th:case="*">Không xác định</span>
+                                        </span>
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="d-none d-xl-table-cell text-center">1</td>
-                                        <td class="d-none d-xl-table-cell text-center">B002-VN</td>
-                                        <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
-                                        <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
-                                        <td class="d-none d-xl-table-cell text-center">50</td>
-                                        <td class="d-none d-xl-table-cell text-center">
-                                            <span class="badge bg-success">Còn sách</span>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="d-none d-xl-table-cell text-center">1</td>
-                                        <td class="d-none d-xl-table-cell text-center">B003-VN</td>
-                                        <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
-                                        <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
-                                        <td class="d-none d-xl-table-cell text-center">50</td>
-                                        <td class="d-none d-xl-table-cell text-center">
-                                            <span class="badge bg-warning">Đang được mượn</span>
-                                        </td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -103,6 +89,21 @@
                     </div>
                 </div>
             </div>
+            <nav th:if="${bookVersions.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:classappend="${bookVersions.first} ? 'disabled'">
+                        <a th:href="@{|?page=${bookVersions.number - 1}|}">&laquo;</a>
+                    </li>
+                    <li th:each="pageNum : ${#numbers.sequence(0, bookVersions.totalPages - 1)}"
+                        th:classappend="${pageNum == bookVersions.number} ? 'active'">
+                        <a th:href="@{|?page=${pageNum}|}" th:text="${pageNum + 1}"></a>
+                    </li>
+                    <li th:classappend="${bookVersions.last} ? 'disabled'">
+                        <a th:href="@{|?page=${bookVersions.number + 1}|}">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
 </div>

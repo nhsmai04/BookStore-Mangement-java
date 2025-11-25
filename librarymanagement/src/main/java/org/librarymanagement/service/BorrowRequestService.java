@@ -9,4 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface BorrowRequestService {
     public ResponseObject getPendingBorrowRequests(User user);
     public Page<BorrowFlatResponse> getReturnedBorrowRequests(User user, Pageable pageable);
+    void updateReturnStatus(Integer borrowId);
 }

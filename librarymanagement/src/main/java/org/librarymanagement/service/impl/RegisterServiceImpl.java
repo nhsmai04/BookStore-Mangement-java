@@ -1,6 +1,7 @@
 package org.librarymanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.librarymanagement.constant.RoleConstants;
 import org.librarymanagement.dto.request.RegisterUserDto;
 import org.librarymanagement.dto.response.ResponseObject;
 import org.librarymanagement.entity.EmailType;
@@ -88,6 +89,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // Tạo người dùng mới
         User user = modelMapper.map(registerUserDto, User.class);
+        user.setRole(RoleConstants.USER);
         String newToken = jwtUtil.generateVerificationToken(user.getEmail());
         user.setVerificationToken(newToken);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

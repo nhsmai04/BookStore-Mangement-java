@@ -42,6 +42,7 @@ public class CustomUserDetails implements UserDetails {
         String roleName = switch (user.getRole()) {
             case 1 -> "ROLE_ADMIN";
             case 2 -> "ROLE_USER";
+            case 3 -> "ROLE_MANAGER";
             default -> "ROLE_GUEST";
         };
         return List.of(new SimpleGrantedAuthority(roleName));

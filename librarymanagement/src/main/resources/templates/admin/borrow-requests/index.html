@@ -9,11 +9,33 @@
 <div layout:fragment="content">
     <div class="content">
         <div class="container-fluid p-0">
-
+            <div th:if="${borrowResponse != null}">
+                <div class="alert alert-info">
+                    <h5>Thông tin phiếu mượno</h5>
+                    <p th:text="'Tên người dùng: ' + ${borrowResponse.username}"></p>
+                    <div>
+                        <strong>Danh sách:</strong>
+                        <ul>
+                            <li th:each="entry : ${borrowResponse.lists.entrySet()}"
+                                th:text="${entry.key} + ': ' + ${entry.value}"></li>
+                        </ul>
+                    </div>
+                    <p th:text="'Số lượng: ' + ${borrowResponse.quantity}"></p>
+                    <p th:text="'Ngày hết hạn: ' + ${borrowResponse.expectedReturnDate}"></p>
+                </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="h3 mb-0">
                     <strong th:text="#{requestbooklist.title}"></strong>
                 </h1>
+
+                <div class="d-flex gap-2">
+                    <!-- Upload Pdf -->
+                    <form th:action="@{/admin/borrow-requests/upload}" method="post" enctype="multipart/form-data" id="uploadPdf">
+                        <input type="file" name="file" accept=".pdf" class="d-none" id="pdfInput" required>
+                        <label for="pdfInput" class="btn btn-primary" th:text="#{table.button-upload-pdf}"></label>
+                    </form>
+                </div>
             </div>
 
             <form th:action="@{/admin/borrow-requests}" method="get" class="mb-3"
@@ -36,7 +58,7 @@
                             <thead>
                             <tr>
                                 <th class="d-none d-xl-table-cell text-center" th:text="#{table.name}"></th>
-                                <th class="d-none d-xl-table-cell text-center" th:text="#{table.bookname}"></th>
+                                <th class="d-none d-xl-table-cell text-center" th:text="#{table.count-book}"></th>
                                 <th class="d-none d-xl-table-cell text-center" th:text="#{table.borrowDate}"></th>
                                 <th class="d-none d-xl-table-cell text-center" th:text="#{table.status}"></th>
                                 <th></th>
@@ -44,8 +66,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="item : ${borrowRequests}">
-                                <td class="d-none d-xl-table-cell text-center" th:text="${item.username}"></td>
-                                <td class="d-none d-xl-table-cell text-center" th:text="${item.totalBooks}"></td>
+                                <td class="d-none d-xl-table-cell text-center" th:text="${item.username} ?: 'N/A'"></td>                                <td class="d-none d-xl-table-cell text-center" th:text="${item.totalBooks}"></td>
                                 <td class="d-none d-xl-table-cell text-center"
                                     th:text="${#temporals.format(item.borrowDate, 'dd/MM/yyyy HH:mm')}"></td>
                                 <td class="d-none d-xl-table-cell text-center">
@@ -108,7 +129,8 @@
             </div>
         </div>
     </div>
-    <div th:replace="~{fragments/table :: deleteTable}"></div>
+    <!--<div th:replace="~{fragments/table :: deleteTable}"></div>-->
+    <script th:src="@{/public/js/admin/borrowrequest.js}"></script>
 </div>
 </body>
 </html>

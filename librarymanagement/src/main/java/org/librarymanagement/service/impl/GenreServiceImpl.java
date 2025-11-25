@@ -4,6 +4,7 @@ import org.librarymanagement.entity.Genre;
 import org.librarymanagement.repository.GenreRepository;
 import org.librarymanagement.repository.PublisherRepository;
 import org.librarymanagement.service.GenreService;
+import org.librarymanagement.service.SlugService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,4 +24,6 @@ public class GenreServiceImpl implements GenreService {
                     return genreRepository.save(gen);
                 });
     }
+
+
 }

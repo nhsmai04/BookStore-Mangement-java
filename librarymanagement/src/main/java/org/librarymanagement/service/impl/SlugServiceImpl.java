@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
 import java.util.Locale;
+import java.util.Set;
 
 @Service
 public class SlugServiceImpl implements SlugService {
@@ -48,5 +49,31 @@ public class SlugServiceImpl implements SlugService {
         slug = slug.toLowerCase(Locale.ENGLISH).replaceAll("[^a-z0-9\\s-]", "");      // bỏ ký tự đặc biệt
         slug = slug.replaceAll("\\s+", "-");                                         // khoảng trắng -> "-"
         return slug.replaceAll("-{2,}", "-").replaceAll("^-|-$", "");                 // bỏ dấu "-" thừa
+    }
+
+    public String generateUniqueSlugInMemory(String title, Set<String> usedSlugs) {
+        String baseSlug = toSlug(title);
+
+        // Giới hạn 75 ký tự
+        if (baseSlug.length() > 75) {
+            baseSlug = baseSlug.substring(0, 75).replaceAll("-+$", "");
+        }
+
+        String slug = baseSlug;
+        int counter = 1;
+
+        while (usedSlugs.contains(slug)) {
+            String suffix = "-" + counter++;
+            int maxLength = 75 - suffix.length();
+
+            String truncatedBase = baseSlug.length() > maxLength
+                    ? baseSlug.substring(0, maxLength).replaceAll("-+$", "")
+                    : baseSlug;
+
+            slug = truncatedBase + suffix;
+        }
+
+        usedSlugs.add(slug); // 🔥 RẤT QUAN TRỌNG
+        return slug;
     }
 }

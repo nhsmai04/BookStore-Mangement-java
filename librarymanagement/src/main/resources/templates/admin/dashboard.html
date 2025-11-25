@@ -13,7 +13,17 @@
         <div class="container-fluid p-0">
 
             <h1 class="h3 mb-3"><strong th:text="#{dashboard.title}"></strong></h1>
+            <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/admin/dashboard/export/pdf}"
+                   class="btn btn-danger me-2">
+                    <i class="mdi mdi-file-pdf-box"></i> Export PDF
+                </a>
 
+                <a th:href="@{/admin/dashboard/export/excel}"
+                   class="btn btn-success">
+                    <i class="mdi mdi-file-excel"></i> Export Excel
+                </a>
+            </div>
             <div class="row">
                 <div class="col-xl-6 col-xxl-5 d-flex">
                     <div class="w-100">
@@ -26,9 +36,15 @@
                                                 <h5 class="card-title" th:text="#{card.borrowRequest}"></h5>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">2.382</h1>
+                                        <h1 class="mt-1 mb-3" th:text="${borrowRequestStat.currentWeekCount}"></h1>
                                         <div class="mb-0">
-                                            <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                                            <span th:class="${borrowRequestStat.percentChange >= 0}
+                                                    ? 'text-success' : 'text-danger'">
+                                                <i class="mdi"
+                                                   th:classappend="${borrowRequestStat.percentChange >= 0}
+                                                   ? ' mdi-arrow-top-right' : ' mdi-arrow-bottom-right'"></i>
+                                                <span th:text="${#numbers.formatDecimal(borrowRequestStat.percentChange, 1, 2)} + '%'"></span>
+                                            </span>
                                             <span class="text-muted" th:text="#{compare.lastWeek}"></span>
                                         </div>
                                     </div>
@@ -40,9 +56,15 @@
                                                 <h5 class="card-title" th:text="#{card.realBorrow}"></h5>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">14.212</h1>
+                                        <h1 class="mt-1 mb-3" th:text="${bookRequestStat.currentWeekBookRequests}"></h1>
                                         <div class="mb-0">
-                                            <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+                                            <span th:class="${bookRequestStat.percentChange >= 0}
+                                                    ? 'text-success' : 'text-danger'">
+                                                <i class="mdi"
+                                                   th:classappend="${bookRequestStat.percentChange >= 0}
+                                                   ? ' mdi-arrow-top-right' : ' mdi-arrow-bottom-right'"></i>
+                                                <span th:text="${#numbers.formatDecimal(bookRequestStat.percentChange, 1, 2)} + '%'"></span>
+                                            </span>
                                             <span class="text-muted" th:text="#{compare.lastWeek}"></span>
                                         </div>
                                     </div>
@@ -56,11 +78,18 @@
                                                 <h5 class="card-title" th:text="#{card.newBooks}"></h5>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">$21.300</h1>
+                                        <h1 class="mt-1 mb-3" th:text="${bookStat.currentWeekBooks}"></h1>
                                         <div class="mb-0">
-                                            <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                            <span th:class="${bookStat.percentChange >= 0}
+                                                ? 'text-success' : 'text-danger'">
+                                                <i class="mdi" th:classappend="${bookStat.percentChange >= 0}
+                                                ? ' mdi-arrow-top-right' : ' mdi-arrow-bottom-right'"></i>
+                                                <span th:text="${#numbers.formatDecimal(bookStat.percentChange, 1, 2)} + '%'"></span>
+                                            </span>
+
+                                            <span class="text-muted" th:text="#{compare.lastMonth}"></span>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="card">
@@ -70,10 +99,16 @@
                                                 <h5 class="card-title" th:text="#{card.newMembers}"></h5>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">64</h1>
+                                        <h1 class="mt-1 mb-3" th:text="${userStat.currentWeekUsers}"></h1>
                                         <div class="mb-0">
-                                            <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                            <span th:class="${userStat.percentChange >= 0}
+                                                ? 'text-success' : 'text-danger'">
+                                                <i class="mdi" th:classappend="${userStat.percentChange >= 0}
+                                                ? ' mdi-arrow-top-right' : ' mdi-arrow-bottom-right'"></i>
+                                                <span th:text="${#numbers.formatDecimal(userStat.percentChange, 1, 2)} + '%'"></span>
+                                            </span>
+
+                                            <span class="text-muted" th:text="#{compare.lastMonth}"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -89,6 +124,9 @@
                             <h5 class="card-title mb-0" th:text="#{card.borrowRequestCount}"></h5>
                         </div>
                         <div class="card-body py-3">
+                            <div id="borrow-chart-data"
+                                 th:data-borrow="${borrowData}">
+                            </div>
                             <div class="chart chart-sm">
                                 <canvas id="chartjs-dashboard-line"></canvas>
                             </div>
@@ -97,11 +135,21 @@
                 </div>
             </div>
 
+            <form th:action="@{/admin/dashboard}" method="get" class="mb-3"
+                  onsubmit="this.querySelectorAll('[name]').forEach(i => !i.value && i.removeAttribute('name'));">
+                <select name="days" class="form-select w-auto d-inline-block">
+                    <option value="" th:selected="${days == null}">Tất cả</option>
+                    <option value="7" th:selected="${days == 7}">7 ngày</option>
+                    <option value="14" th:selected="${days == 14}">14 ngày</option>
+                    <option value="30" th:selected="${days == 30}">30 ngày</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Lọc</button>
+            </form>
+
             <div class="row">
                 <div class="col-12 col-lg-8 col-xxl-9 d-flex">
                     <div class="card flex-fill">
                         <div class="card-header">
-
                             <h5 class="card-title mb-0" th:text="#{card.borrowList}"></h5>
                         </div>
                         <table class="table table-hover my-0">
@@ -114,55 +162,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Project Apollo</td>
-                                <td class="d-none d-xl-table-cell">Project Apollo</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-danger" th:text="#{status.cancelled}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Hades</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Nitro</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-warning" th:text="#{status.borrowing}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Phoenix</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project X</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Romeo</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Project Wombat</td>
-                                <td class="d-none d-xl-table-cell">Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                <td><span class="badge bg-warning" th:text="#{status.borrowing}"></span></td>
+                            <tr th:each="br : ${items}">
+                                <!-- Tên người mượn -->
+                                <td th:text="${br.borrowerName}">Nguyễn Văn A</td>
+
+                                <!-- Tên sách -->
+                                <td class="d-none d-xl-table-cell"
+                                    th:text="${#lists.isEmpty(br.items) ? '' : br.items[0].bookTitle}">
+                                    Book name
+                                </td>
+
+                                <!-- Ngày mượn -->
+                                <td class="d-none d-xl-table-cell"
+                                    th:text="${#temporals.format(br.startDate, 'dd/MM/yyyy')}">
+                                    31/06/2023
+                                </td>
+
+                                <!-- Trạng thái -->
+                                <td>
+                                    <span class="badge"
+                                        th:classappend="' ' + ${br.status.cssClass}"
+                                        th:text="${br.status.label}">
+                                    </span>
+                                </td>
                             </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -173,6 +198,9 @@
                             <h5 class="card-title mb-0" th:text="#{card.newMembers}"></h5>
                         </div>
                         <div class="card-body d-flex w-100">
+                            <div id="members-chart-data"
+                                 th:data-members="${memberData}">
+                            </div>
                             <div class="align-self-center chart chart-lg">
                                 <canvas id="chartjs-dashboard-bar"></canvas>
                             </div>

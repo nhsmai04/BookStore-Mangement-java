@@ -11,6 +11,7 @@ import org.librarymanagement.service.AuthService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class AuthController {
             return "admin/login";
         }
 
-        if (loginResponseDto.role() != RoleConstants.ADMIN) {
+        if (loginResponseDto.role() != RoleConstants.ADMIN && loginResponseDto.role() != RoleConstants.MANAGER) {
             populateLoginFormModel(model, loginUserDto, null, "Bạn không có quyền truy cập");
             return "admin/login";
         }
@@ -72,14 +73,29 @@ public class AuthController {
     }
 
     private void authenticateAdminUser(LoginResponseDto loginResponseDto, HttpServletRequest request) {
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        SimpleGrantedAuthority authority = switch (loginResponseDto.role()) {
+            case RoleConstants.ADMIN -> new SimpleGrantedAuthority("ROLE_ADMIN");
+            case RoleConstants.MANAGER -> new SimpleGrantedAuthority("ROLE_MANAGER");
+            default -> throw new IllegalStateException("Role không hợp lệ cho admin");
+        };
+
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                loginResponseDto.username(), null, authorities
+                loginResponseDto.username(),
+                null,
+                List.of(authority)
         );
-        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(auth);
+        SecurityContextHolder.setContext(context);
 
         HttpSession session = request.getSession(true);
         session.setAttribute("currentUser", loginResponseDto);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        session.setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                context
+        );
     }
+
 }

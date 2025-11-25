@@ -8,6 +8,7 @@ import org.librarymanagement.exception.NotFoundException;
 import org.librarymanagement.repository.AuthorRepository;
 import org.librarymanagement.repository.PublisherRepository;
 import org.librarymanagement.service.PublisherService;
+import org.librarymanagement.service.SlugService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,12 @@ public class PublisherServiceImpl implements PublisherService {
 
     private final PublisherRepository publisherRepository;
     private final MessageSource messageSource;
+    private final SlugService slugService;
 
-    public PublisherServiceImpl(PublisherRepository publisherRepository, MessageSource messageSource) {
+    public PublisherServiceImpl(PublisherRepository publisherRepository, MessageSource messageSource, SlugService slugService) {
         this.publisherRepository = publisherRepository;
         this.messageSource = messageSource;
+        this.slugService = slugService;
     }
 
     public Publisher findOrCreatePublisher(String publisherName){
@@ -32,10 +35,24 @@ public class PublisherServiceImpl implements PublisherService {
                 .orElseGet(() -> {
                     Publisher p = new Publisher();
                     p.setName(publisherName);
+                    p.setSlug(slugService.generateUniqueSlug(publisherName));
                     return publisherRepository.save(p);
                 });
     }
-
+    public Publisher findOrCreatePublisherInMemory(
+            String name,
+            Set<String> usedSlugs
+    ){
+        return publisherRepository.findByName(name)
+                .orElseGet(() -> {
+                    Publisher p = new Publisher();
+                    p.setName(name);
+                    p.setSlug(
+                            slugService.generateUniqueSlugInMemory(name, usedSlugs)
+                    );
+                    return publisherRepository.save(p);
+                });
+    }
     @Override
     public ResponseObject getPublisher(String slug){
 

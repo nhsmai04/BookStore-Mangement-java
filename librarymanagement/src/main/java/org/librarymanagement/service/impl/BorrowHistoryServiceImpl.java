@@ -38,7 +38,8 @@ public class BorrowHistoryServiceImpl implements BorrowHistoryService {
         List<Integer> itemStatuses = List.of(
                 BRItemStatusConstant.BORROWED,
                 BRItemStatusConstant.OVERDUE,
-                BRItemStatusConstant.LOST
+                BRItemStatusConstant.LOST,
+                BRItemStatusConstant.RETURNED
         );
 
         List<BorrowRequestItem> historyItems = borrowRequestItemRepository.findBorrowHistoryByUserId(

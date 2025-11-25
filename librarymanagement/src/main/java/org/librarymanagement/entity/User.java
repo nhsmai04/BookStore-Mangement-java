@@ -62,4 +62,7 @@ public class User {
         createdAt = LocalDateTime.now();
         this.status = 1;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Notification> notifications;
 }

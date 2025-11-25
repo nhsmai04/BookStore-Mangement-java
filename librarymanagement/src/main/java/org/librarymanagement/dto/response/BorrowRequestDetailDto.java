@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record BorrowRequestDetailDto(
+        Integer id,
         String borrowerName,
         String borrowerEmail,
         String borrowerPhone,

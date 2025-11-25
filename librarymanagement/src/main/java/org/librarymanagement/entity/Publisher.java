@@ -20,10 +20,10 @@ public class Publisher {
 
     private String email;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String slug;
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, orphanRemoval = true)

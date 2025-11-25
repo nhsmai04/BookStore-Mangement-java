@@ -36,7 +36,7 @@ public interface BorrowRequestItemRepository extends JpaRepository<BorrowRequest
             """)
     List<BorrowRequestItem> findBorrowHistoryByUserId(
             @Param("userId") Integer userId,
-            @Param("requestStatusCompleted") int requestStatusCompleted,
+            @Param("requestStatusCompleted") Integer requestStatusCompleted,
             @Param("itemStatusList") List<Integer> itemStatusList
     );
 }

@@ -1,6 +1,7 @@
 package org.librarymanagement.repository;
 
 import lombok.NonNull;
+import org.librarymanagement.dto.response.BorrowCountByMonth;
 import org.librarymanagement.dto.response.BorrowRequestRawDto;
 import org.librarymanagement.dto.response.BorrowRequestSummaryDto;
 import org.librarymanagement.entity.BorrowRequest;
@@ -57,4 +58,46 @@ public interface BorrowRequestRepository extends JpaRepository<BorrowRequest, In
     @NonNull
     @EntityGraph(attributePaths = {"user", "borrowRequestItems"})
     Optional<BorrowRequest> findById(@NonNull Integer id);
+
+    @Query("SELECT bri FROM BorrowRequest bri WHERE bri.user.id = :id AND bri.status IN (:statuses)")
+    @EntityGraph(attributePaths = {"user", "borrowRequestItems"})
+    List<BorrowRequest> findByStatusAndUser(@Param("statuses") List<Integer> statuses, @Param("id") Integer id);
+
+    @Query("""
+        SELECT COUNT(br)
+        FROM BorrowRequest br
+        WHERE br.dayConfirmed BETWEEN :dayStart AND :dayEnd
+    """)
+    Integer countBorrowRequestsByDayConfirmed(LocalDateTime dayStart, LocalDateTime dayEnd);
+
+    @Query("""
+        SELECT SUM(br.quantity)
+        FROM BorrowRequest br
+        WHERE br.dayConfirmed BETWEEN :dayStart AND :dayEnd
+    """)
+    Integer sumQuantityByDayConfirmed(LocalDateTime dayStart, LocalDateTime dayEnd);
+
+    @Query("""
+        SELECT br
+        FROM BorrowRequest br
+        WHERE br.dayConfirmed BETWEEN :dayStart AND :dayEnd
+    """)
+    List<BorrowRequest> findAllByDay(LocalDateTime dayStart, LocalDateTime dayEnd);
+
+    @Query("""
+        SELECT br
+        FROM BorrowRequest br
+    """)
+    @NonNull
+    List<BorrowRequest> findAll();
+
+    @Query("""
+        SELECT FUNCTION('MONTH', br.dayConfirmed) AS month,
+               COUNT(br) AS borrowCount
+        FROM BorrowRequest br
+        WHERE br.dayConfirmed IS NOT NULL AND FUNCTION('YEAR', br.dayConfirmed) = :year
+        GROUP BY FUNCTION('MONTH', br.dayConfirmed)
+        ORDER BY FUNCTION('MONTH', br.dayConfirmed) ASC
+    """)
+    List<BorrowCountByMonth> countBorrowRequestsGroupedByMonth(@Param("year") Integer year);
 }

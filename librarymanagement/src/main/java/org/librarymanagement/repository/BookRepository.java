@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
     @EntityGraph(attributePaths = {"bookAuthors.author", "publisher"})
     Optional<Book> findBySlug(String slug);
 
+    @EntityGraph(attributePaths = {"bookAuthors.author", "publisher"})
     boolean existsBySlug(String slug);
 
     @Query("""
@@ -96,4 +98,12 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
             WHERE b.id IN :bookIds
     """)
     List<BookSearchFlatDto> findAllBookDataByIds(@Param("bookIds") List<Integer> bookIds);
+
+    Book findBooksByTitle(String title);
+
+    @Query("SELECT COUNT(b) FROM Book b WHERE b.createdAt BETWEEN :start AND :end")
+    Integer countBooksByCreatedAt(LocalDateTime start, LocalDateTime end);
+
+    @Query("select b.slug from Book b")
+    List<String> findAllSlugs();
 }

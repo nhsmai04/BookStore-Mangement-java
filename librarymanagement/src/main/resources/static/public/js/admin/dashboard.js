@@ -1,8 +1,15 @@
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
     var gradient = ctx.createLinearGradient(0, 0, 0, 225);
     gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
     gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+
+    const dataElement = document.getElementById("borrow-chart-data");
+    if (!dataElement) return;
+
+    const borrowData = JSON.parse(dataElement.dataset.borrow);
     // Line chart
     new Chart(document.getElementById("chartjs-dashboard-line"), {
         type: "line",
@@ -13,20 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 fill: true,
                 backgroundColor: gradient,
                 borderColor: window.theme.primary,
-                data: [
-                    2115,
-                    1562,
-                    1584,
-                    1892,
-                    1587,
-                    1923,
-                    2566,
-                    2448,
-                    2805,
-                    3438,
-                    2917,
-                    3327
-                ]
+                data: borrowData
             }]
         },
         options: {
@@ -68,6 +62,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    const dataElement = document.getElementById("members-chart-data");
+    if (!dataElement) return;
+
+    const memberData = JSON.parse(dataElement.dataset.members);
     // Bar chart
     new Chart(document.getElementById("chartjs-dashboard-bar"), {
         type: "bar",
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 borderColor: window.theme.primary,
                 hoverBackgroundColor: window.theme.primary,
                 hoverBorderColor: window.theme.primary,
-                data: [154, 167, 141, 155, 162, 145, 155, 173, 160, 176, 148, 179],
+                data: memberData,
                 barPercentage: .75,
                 categoryPercentage: .5
             }]

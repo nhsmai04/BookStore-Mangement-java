@@ -59,6 +59,32 @@
                                         <td class="d-none d-xl-table-cell text-center" th:text="${item.publisher}"></td>
                                         <td class="d-none d-xl-table-cell text-center" th:text="${#temporals.format(item.publishDate, 'dd/MM/yyyy')}"></td>
                                         <td class="d-none d-xl-table-cell text-center" th:text="${item.availableQuantity}"></td>
+                                        <td class="d-none d-xl-table-cell text-center">
+                                            <div th:if="${
+                                             (
+        item.status == T(org.librarymanagement.constant.BRItemStatusConstant).BORROWED
+        or
+        item.status == T(org.librarymanagement.constant.BRItemStatusConstant).OVERDUE
+    )
+    or
+    (
+        detail.status == T(org.librarymanagement.constant.BRStatusConstant).COMPLETED.value
+        or
+        detail.status == T(org.librarymanagement.constant.BRStatusConstant).OVERDUE.value
+    )
+                                            }">
+                                                <form th:action="@{/admin/borrow-requests-items/return}" method="post">
+                                                    <input type="hidden" name="borrowId" th:value="${detail.id}">
+                                                    <input type="hidden" name="_method" value="patch" />
+                                                    <input type="hidden" name="itemId" th:value="${item.id}" />
+                                                    <button type="submit" class="btn btn-primary">Trả sách</button>
+                                                </form>
+                                            </div>
+
+                                            <div th:if="${item.status == T(org.librarymanagement.constant.BRItemStatusConstant).RETURNED}">
+                                                <i class="fas fa-check-circle" style="color: green; font-size: 24px;"></i>
+                                            </div>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

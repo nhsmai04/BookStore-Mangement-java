@@ -3,15 +3,19 @@ package org.librarymanagement.service;
 import org.librarymanagement.dto.response.BorrowRequestDetailDto;
 import org.librarymanagement.dto.response.BorrowRequestSummaryDto;
 import org.librarymanagement.dto.response.ResponseObject;
+import org.librarymanagement.entity.BorrowRequest;
 import org.librarymanagement.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface BorrowService {
     ResponseObject borrowBook(Map<Integer, Integer> bookBorrows, User user);
     Page<BorrowRequestSummaryDto> getAllRequests(Integer status, Pageable pageable);
-    boolean acceptBorrowRequest(Integer requestId);
     BorrowRequestDetailDto getBorrowRequestDetail(Integer id);
+    boolean acceptBorrowRequest(Integer requestId);
+    BorrowRequestDetailDto convertToBorrowRequestDetailDto(BorrowRequest borrowRequest);
 }

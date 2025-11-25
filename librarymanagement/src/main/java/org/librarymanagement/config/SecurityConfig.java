@@ -66,8 +66,17 @@ public class SecurityConfig {
                 .securityMatcher(ApiEndpoints.BASE_USER_URI + "/**") // Áp dụng cho URL bắt đầu bằng /api/
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+
+                        // Public endpoints
+                        .requestMatchers(
+                                ApiEndpoints.USER_BOOK + "/search",
+                                ApiEndpoints.USER_BOOK + "/{slug}",
+                                ApiEndpoints.USER_BOOK + "/",
+                                ApiEndpoints.USER_BOOK + "/{slug}" +"/reviews"
+                        ).permitAll()
+                        // Private endpoints
                         .requestMatchers(ApiEndpoints.USER_AUTH + "/**").permitAll()
-                        .requestMatchers(ApiEndpoints.BASE_USER_URI + "/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(ApiEndpoints.BASE_USER_URI + "/**").hasAnyRole("USER", "ADMIN", "MANAGER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -84,7 +93,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ApiEndpoints.ADMIN_AUTH + "/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers(ApiEndpoints.BASE_ADMIN_URI + "/**").hasRole("ADMIN")
+                        .requestMatchers(ApiEndpoints.BASE_ADMIN_URI + "/**").hasAnyRole("ADMIN", "MANAGER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -118,4 +127,6 @@ public class SecurityConfig {
                 });
         return http.build();
     }
+
+
 }

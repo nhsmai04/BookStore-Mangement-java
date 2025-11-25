@@ -1,0 +1,118 @@
+<!-- language: html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Quản lý bản sao sách</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong>Quản lý bản sao sách</strong>
+                </h1>
+            </div>
+
+            <!-- Tabs for Book Info and Book Versions -->
+            <ul class="nav nav-tabs" id="bookEditTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="javascript:void(0);" onclick="history.back();">
+                        Thông tin sách
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            data-bs-toggle="tab"
+                            data-bs-target="#book-versions"
+                            type="button">
+                        Bản sao sách
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3">
+                <!-- TAB 2 - Book Versions -->
+                <div class="tab-pane fade show active" id="book-versions">
+                    <h4 th:text="#{book.detail.versionList}">Danh sách bản sao sách</h4>
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-dark">
+                        <tr>
+                            <th class="text-center" th:text="#{book.version.index}">#</th>
+                            <th class="text-center" th:text="#{book.version.code}">Mã bản sao</th>
+                            <th class="text-center" th:text="#{book.version.language}">Ngôn ngữ</th>
+                            <th class="text-center" th:text="#{book.version.format}">Định dạng</th>
+                            <th class="text-center" th:text="#{book.version.status}">Trạng thái</th>
+                            <th class="text-center">Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bookversion, stat : ${bookVersions}">
+                            <td class="text-center" th:text="${stat.index + 1}">1</td>
+                            <td class="text-center" th:text="${bookversion.id}">BV001</td>
+                            <td class="text-center">Tiếng Việt</td>
+                            <td class="text-center">Bìa cứng</td>
+                            <td class="text-center status-cell">
+                                <span th:switch="${bookversion.status}">
+                                    <span th:case="1" class="badge bg-success">Có sẵn</span>
+                                    <span th:case="0" class="badge bg-danger">Hỏng / Mất</span>
+                                    <span th:case="2" class="badge bg-warning text-dark">Đang mượn</span>
+                                    <span th:case="3" class="badge bg-primary">Đang đặt trước</span>
+                                    <span th:case="4" class="badge bg-secondary">Đang sửa</span>
+                                    <span th:case="*">Không xác định</span>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-sm btn-warning editVersionBtn"
+                                        th:attr="data-version-id=${bookversion.id},data-current-status=${bookversion.status}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editVersionModal">
+                                    Sửa
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Edit Book Version -->
+            <div class="modal fade" id="editVersionModal" tabindex="-1" aria-labelledby="editVersionModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="editBookVersionForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editVersionModalLabel">Sửa trạng thái bản sao</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select id="status" class="form-select">
+                                        <option value="1">Có sẵn</option>
+                                        <option value="0">Hỏng / Mất</option>
+                                        <option value="2">Đang mượn</option>
+                                        <option value="3">Đang đặt trước</option>
+                                        <option value="4">Đang sửa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary" id="saveBookVersionStatusBtn">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script th:src="@{/public/js/admin/bookversion.js}"></script>
+</div>
+</body>
+</html>

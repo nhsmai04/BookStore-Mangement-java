@@ -122,6 +122,15 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         return new PageImpl<>(pageList, pageable, returnedResponses.size());
     }
 
+    @Transactional
+    @Override
+    public void updateReturnStatus(Integer borrowId)
+    {
+        BorrowRequest borrowRequest = borrowRequestRepository.findById(borrowId).orElseThrow(() -> new NotFoundException("borrowRequest not found"));
+        borrowRequest.setStatus(BRStatusConstant.RETURNED.getValue());
+        borrowRequestRepository.save(borrowRequest);
+
+    }
     private BorrowFlatResponse convertToFlatResponse(BorrowRequestItem item, String cancelReason, String reviewLink) {
         BookVersion bookVersion = item.getBookVersion();
         Book book = bookVersion.getBook();

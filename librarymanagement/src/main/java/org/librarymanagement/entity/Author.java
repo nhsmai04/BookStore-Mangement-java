@@ -24,7 +24,7 @@ public class Author {
     @Column(name = "created_at",  nullable = false)
     private LocalDateTime  createdAt;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String slug;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)

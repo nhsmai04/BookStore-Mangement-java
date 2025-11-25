@@ -15,12 +15,10 @@
                 </h1>
 
                 <div class="d-flex gap-2">
-                    <!-- Download template -->
-                    <a href="#" onclick="downloadAndRedirect()" class="btn btn-warning" th:text="#{table.button-download}"></a>
                     <!-- Import form -->
                     <form th:action="@{/admin/books/import}" method="post" enctype="multipart/form-data" id="importForm">
                         <input type="file" name="file" accept=".xls,.xlsx" class="d-none" id="fileInput" required>
-                        <label for="fileInput" class="btn btn-primary" th:text="'+ ' + #{table.button-add}"></label>
+                        <label for="fileInput" class="btn btn-primary" th:text="#{table.button-add}"></label>
                     </form>
                 </div>
             </div>
@@ -86,7 +84,7 @@
                                        th:text="#{table.button-view}">
                                     </a>
 
-                                    <a th:href="@{'/admin/books/edit/' + ${book.id}}"
+                                    <a th:href="@{'/admin/books/' + ${book.id} +'/edit'}"
                                        class="btn btn-warning"
                                        th:text="#{table.button-edit}">
                                     </a>
@@ -107,7 +105,7 @@
                 <ul class="pagination justify-content-center mt-3">
                     <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
                         <a class="page-link" aria-label="Previous"
-                            th:href="@{/admin/books(page=${currentPage-1},
+                            th:href="@{/admin/books(page=${ currentPage - 1 },
                                 size=${size},
                                 author=${author},
                                 publisher=${publisher},
@@ -118,7 +116,7 @@
                     </li>
                     <li class="page-item"
                         th:if="${totalPages > 0}"
-                        th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                        th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                         th:classappend="${i == currentPage} ? ' active'">
                         <a class="page-link"
                             th:text="${i + 1}"
@@ -167,7 +165,7 @@
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <div th:replace="~{fragments/table :: deleteTable}"></div>
+    <!--<div th:replace="~{fragments/table :: deleteTable}"></div>-->
     <script th:src="@{/public/js/admin/book.js}"></script>
 </div>
 </body>
