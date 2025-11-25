@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Tất cả Sách</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{genresedit.title}"></strong>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill py-4 px-4">
+                        <form>
+                            <div class="mb-3">
+                                <label for="genresName" class="form-label" th:text="#{form.genresname}"></label>
+                                <input type="text" class="form-control" id="genresName" placeholder="Nhập tên thể loại">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genresDescription" class="form-label" th:text="#{form.description}"></label>
+                                <textarea class="form-control" id="genresDescription" rows="3" placeholder="Nhập mô tả thể loại"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

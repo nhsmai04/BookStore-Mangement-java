@@ -1,0 +1,47 @@
+/* Sidebar container */
+.nav-left-sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: var(--color-darker);
+    color: var(--color-light);
+    font-size: 14px;
+}
+
+/* Divider */
+.nav-divider {
+    padding: 15px 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--color-light-active);
+    letter-spacing: 1px;
+}
+
+/* Links */
+.nav-link {
+    color: var(--color-light) !important;
+    padding: 12px 10px !important;
+    display: flex  !important;
+    align-items: center;
+    gap: 8px  !important;
+    transition: 0.3s;
+    font-weight: 400  !important;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link.active {
+    color: var(--color-light-active)  !important;
+}
+
+/* Submenu */
+.nav .collapse .nav-link {
+    padding-left: 40px;
+    font-size: 15px;
+}
+
+/* Badges */
+.badge {
+    font-size: 13px;
+    border-radius: 10px;
+    padding: 3px 8px;
+}

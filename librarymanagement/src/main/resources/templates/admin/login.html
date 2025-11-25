@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/public/css/admin/login.css}">
+    <title>Đăng nhập</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row form-login">
+            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
+                <div class="text-center mb-4">
+                    <h1 class="brand-title">Đăng nhập</h1>
+                </div>
+
+                <div class="card border-0">
+                    <div class="card-body p-5">
+                        <!-- Form login -->
+                        <form id="loginForm" th:action="@{/admin/auth/login}" method="post" th:object="${loginUserDto}" novalidate>
+                            <div class="mb-4">
+                                <label for="username" class="form-label fw-medium">Tên đăng nhập</label>
+                                <input type="text"
+                                       name="username"
+                                       class="form-control form-control-lg custom-input"
+                                       th:field="*{username}"
+                                       placeholder="abc@gmail.com"
+                                       required>
+                                <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback">
+                                    <p th:errors="*{username}"></p>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label for="password" class="form-label fw-medium mb-0">Password</label>
+                                    <a th:href="@{/forgot-password}" class="link-secondary small">Quên mật khẩu</a>
+                                </div>
+                                <input type="password"
+                                       name="password"
+                                       class="form-control form-control-lg custom-input"
+                                       th:field="*{password}"
+                                       placeholder="********"
+                                       required>
+                                <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                                    <p th:errors="*{password}"></p>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn submit-button w-100 mb-3">
+                                Đăng nhập
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" th:src="@{/public/js/admin/login.js}"></script>
+</div>
+</body>
+</html>

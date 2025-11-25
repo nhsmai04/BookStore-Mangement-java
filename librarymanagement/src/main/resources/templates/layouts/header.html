@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+<div th:fragment="header">
+    <div class="dashboard-header">
+        <nav class="navbar navbar-expand fixed-top">
+            <div class="container-fluid">
+
+                <!-- Mobile Sidebar Toggle -->
+                <button sec:authorize="isAuthenticated()"
+                        class="navbar-toggler sidebar-toggler me-3 d-lg-none"
+                        type="button" aria-label="Toggle sidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Brand -->
+                <a class="navbar-brand" th:href="@{/}">Library</a>
+
+                <!-- Search Bar - Hidden on Mobile -->
+                <div class="mx-auto d-none d-md-block">
+                    <div class="top-search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input class="form-control" type="search" placeholder="Search anything..." aria-label="Search">
+                    </div>
+                </div>
+
+                <!-- Right Side Items -->
+                <ul class="navbar-nav ms-auto navbar-right-top">
+
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" role="button" aria-expanded="false">
+                            <div class="position-relative">
+                                <i class="fa-solid fa-bell nav-icons"></i>
+                                <span class="indicator">4</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-start py-0" aria-labelledby="alertsDropdown">
+                            <li class="dropdown-menu-header">
+                                4 New Notifications
+                            </li>
+                            <li class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-danger" data-feather="alert-circle"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Update completed</div>
+                                            <div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
+                                            <div class="text-muted small mt-1">30m ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-warning" data-feather="bell"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Lorem ipsum</div>
+                                            <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
+                                            <div class="text-muted small mt-1">2h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-primary" data-feather="home"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Login from 192.186.1.8</div>
+                                            <div class="text-muted small mt-1">5h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-success" data-feather="user-plus"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">New connection</div>
+                                            <div class="text-muted small mt-1">Christina accepted your request.</div>
+                                            <div class="text-muted small mt-1">14h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="dropdown-menu-footer">
+                                <a href="#" class="text-muted">Show all notifications</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Profile -->
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" id="avatarDropdown" role="button" aria-expanded="false">
+                            <img th:src="${currentUser != null && currentUser.avatar != null ? currentUser.avatar : '/public/images/default-avatar.png'}"
+                                 class="avatar img-fluid rounded me-1" alt="${currentUser.username}" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
+                            <a class="dropdown-item" href="pages-profile.html"><i class="fa-solid fa-user"></i> Trang cá nhân</a>
+                            <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Cài đặt</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                        </div>
+                    </li>
+
+                    <!-- Login Link for Guests -->
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link-header" th:href="@{/admin/auth/login}">Login</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control form-control-lg" type="search" placeholder="Search anything..." aria-label="Search" autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/public/js/layouts/header.js}"></script>
+</div>
+</body>
+</html>

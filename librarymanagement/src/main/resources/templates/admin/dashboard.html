@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Thống kê</title>
+    <link rel="stylesheet" th:href="@{/public/cdn/css/flatpickr.min.css}">
+    <link rel="stylesheet" th:href="@{/public/cdn/css/jsvectormap.min.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3"><strong th:text="#{dashboard.title}"></strong></h1>
+
+            <div class="row">
+                <div class="col-xl-6 col-xxl-5 d-flex">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col mt-0">
+                                                <h5 class="card-title" th:text="#{card.borrowRequest}"></h5>
+                                            </div>
+                                        </div>
+                                        <h1 class="mt-1 mb-3">2.382</h1>
+                                        <div class="mb-0">
+                                            <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col mt-0">
+                                                <h5 class="card-title" th:text="#{card.realBorrow}"></h5>
+                                            </div>
+                                        </div>
+                                        <h1 class="mt-1 mb-3">14.212</h1>
+                                        <div class="mb-0">
+                                            <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col mt-0">
+                                                <h5 class="card-title" th:text="#{card.newBooks}"></h5>
+                                            </div>
+                                        </div>
+                                        <h1 class="mt-1 mb-3">$21.300</h1>
+                                        <div class="mb-0">
+                                            <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col mt-0">
+                                                <h5 class="card-title" th:text="#{card.newMembers}"></h5>
+                                            </div>
+                                        </div>
+                                        <h1 class="mt-1 mb-3">64</h1>
+                                        <div class="mb-0">
+                                            <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
+                                            <span class="text-muted" th:text="#{compare.lastWeek}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-xxl-7">
+                    <div class="card flex-fill w-100">
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0" th:text="#{card.borrowRequestCount}"></h5>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="chart chart-sm">
+                                <canvas id="chartjs-dashboard-line"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0" th:text="#{card.borrowList}"></h5>
+                        </div>
+                        <table class="table table-hover my-0">
+                            <thead>
+                            <tr>
+                                <th th:text="#{table.name}"></th>
+                                <th th:text="#{table.bookname}"></th>
+                                <th th:text="#{table.borrowDate}"></th>
+                                <th th:text="#{table.status}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Project Apollo</td>
+                                <td class="d-none d-xl-table-cell">Project Apollo</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-danger" th:text="#{status.cancelled}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Hades</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Nitro</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-warning" th:text="#{status.borrowing}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Phoenix</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project X</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Romeo</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-success" th:text="#{status.returned}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Project Wombat</td>
+                                <td class="d-none d-xl-table-cell">Project Fireball</td>
+                                <td class="d-none d-xl-table-cell">31/06/2023</td>
+                                <td><span class="badge bg-warning" th:text="#{status.borrowing}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xxl-3 d-flex">
+                    <div class="card flex-fill w-100">
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0" th:text="#{card.newMembers}"></h5>
+                        </div>
+                        <div class="card-body d-flex w-100">
+                            <div class="align-self-center chart chart-lg">
+                                <canvas id="chartjs-dashboard-bar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script th:src="@{/public/cdn/js/chart.js}"></script>
+    <script th:src="@{/public/cdn/js/flatpickr.js}"></script>
+    <script th:src="@{/public/cdn/js/jsvectormap.js}"></script>
+    <script th:src="@{/public/cdn/js/jsvectormap-world.js}"></script>
+    <script th:src="@{/public/js/admin/dashboard.js}"></script>
+</div>
+</body>
+</html>

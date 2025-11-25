@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Tất cả Sách</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{bookedit.title}"></strong>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill py-4 px-4">
+                        <form class="row">
+                            <!-- Cột bên trái: form input -->
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="bookName" class="form-label" th:text="#{form.bookname}"></label>
+                                    <input type="text" class="form-control" id="bookName" placeholder="Nhập tên sách">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="authorName" class="form-label" th:text="#{form.author}"></label>
+                                    <select id="authorName" class="form-select">
+                                        <option selected disabled>-- Chọn tác giả chính</option>
+                                        <option>Lý Tuấn Văn</option>
+                                        <option>Bang Nguyễn Quỳnh Anh</option>
+                                        <option>Nguyễn Vũ Nguyên</option>
+                                        <option>Trần Thị Phương Thảo</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="coAuthorName" class="form-label" th:text="#{form.coauthor}"></label>
+                                    <select id="coAuthorName" class="form-select" multiple>
+                                        <option selected disabled>-- Chọn đồng tác giả</option>
+                                        <option>Lý Tuấn Văn</option>
+                                        <option>Bang Nguyễn Quỳnh Anh</option>
+                                        <option>Nguyễn Vũ Nguyên</option>
+                                        <option>Trần Thị Phương Thảo</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="publisher" class="form-label" th:text="#{form.publisher}"></label>
+                                    <select id="publisher" class="form-select">
+                                        <option selected disabled>-- Chọn nhà xuất bản</option>
+                                        <option>Nhà xuất bản Trẻ</option>
+                                        <option>Nhà xuất bản Kim Đồng</option>
+                                        <option>Nhà xuất bản Tổng hợp thành phố Hồ Chí Minh</option>
+                                        <option>Nhà xuất bản Hội Nhà văn</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="publishDate" class="form-label" th:text="#{form.day-publisher}"></label>
+                                    <input type="date" class="form-control" id="publishDate">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="bookDescription" class="form-label" th:text="#{form.description}"></label>
+                                    <textarea class="form-control" id="bookDescription" rows="3" placeholder="Nhập mô tả sách"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="totalQuantity" class="form-label" th:text="#{form.total-quantity}"></label>
+                                    <input type="number" class="form-control" id="totalQuantity" placeholder="Nhập số lượng">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+
+                            <!-- Cột bên phải: upload ảnh -->
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <label for="bookImage" class="form-label" th:text="#{form.bookimage}">Ảnh sách</label>
+                                    <input class="form-control" type="file" id="bookImage" accept="image/*" onchange="previewImage(event)">
+                                </div>
+                                <img id="preview" src="/public/images/default-book.jpg" alt="Preview" class="img-detail rounded border" style="max-height: 300px; object-fit: contain;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

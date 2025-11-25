@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+<th:block th:fragment="deleteTable">
+    <!-- Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header position-relative">
+                    <h5 class="modal-title w-100 text-center fs-4" id="confirmDeleteModalLabel">
+                        Xác nhận xoá
+                    </h5>
+                    <button type="button" class="btn-close position-absolute end-0 me-2"
+                            data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xoá mục này không? Hành động này không thể hoàn tác.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xoá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/public/js/fragments/table.js}"></script>
+</th:block>
+</body>
+</html>

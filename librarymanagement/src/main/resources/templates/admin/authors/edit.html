@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Tất cả Sách</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{authoredit.title}"></strong>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill py-4 px-4">
+                        <form class="row">
+                            <!-- Cột bên trái: form input -->
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="authorName" class="form-label" th:text="#{form.authorname}"></label>
+                                    <input type="text" class="form-control" id="authorName" placeholder="Nhập tên tác giả">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="authorBio" class="form-label" th:text="#{form.bio}"></label>
+                                    <textarea class="form-control" id="authorBio" rows="7" placeholder="Nhập tiểu sử"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+
+                            <!-- Cột bên phải: upload ảnh -->
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <label for="authorImage" class="form-label" th:text="#{form.authorimage}"></label>
+                                    <input class="form-control" type="file" id="authorImage" accept="image/*">
+                                </div>
+                                <img id="preview" src="/public/images/default-avatar.png" alt="Preview"
+                                     class="img-detail rounded border" style="max-height: 300px; object-fit: contain;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

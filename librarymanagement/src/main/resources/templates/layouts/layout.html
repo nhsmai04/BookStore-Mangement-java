@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link rel="stylesheet" th:href="@{/public/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/public/cdn/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/public/css/layouts/theme.css}">
+    <link rel="stylesheet" th:href="@{/public/css/layouts/layout.css}">
+    <link rel="stylesheet" th:href="@{/public/css/layouts/app.css}">
+    <link rel="stylesheet" th:href="@{/public/css/layouts/header.css}">
+    <link rel="stylesheet" th:href="@{/public/css/layouts/sidebar.css}">
+    <th:block layout:fragment="head"></th:block>
+</head>
+
+<body>
+    <!-- Header -->
+    <div th:replace="layouts/header :: header"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-auto sidebar-wrapper" sec:authorize="isAuthenticated()">
+                <div th:replace="layouts/sidebar :: sidebar"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="col main-content" th:classappend="${#authorization.expression('isAuthenticated()')} ? 'has-sidebar' : ''">
+                <main>
+                    <th:block layout:fragment="content"></th:block>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${message}"
+         class="alert alert-dismissible fade show position-fixed top-0 end-0 m-3"
+         th:classappend="'alert-' + ${alertType}" role="alert" style="z-index: 1050;">
+        <span th:text="${message}"></span>
+        <ul th:if="${errors}">
+            <li th:each="err : ${errors}" th:text="${err}"></li>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script th:src="@{/public/cdn/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/public/js/layouts/app.js}"></script>
+</body>
+</html>

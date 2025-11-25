@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xác thực thành công</title>
+    <link rel="stylesheet" th:href="@{/public/cdn/css/bootstrap.min.css}">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f8f9fa; }
+        .card { padding: 40px; text-align: center; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .icon { font-size: 50px; color: #28a745; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="icon">&#10004;</div>
+    <h1 class="mt-3">Thành công!</h1>
+    <p class="lead" th:text="${message}">Xác thực email thành công.</p>
+    <a th:href="@{/admin/auth/login}" class="btn btn-primary mt-3">Tới trang đăng nhập</a>
+</div>
+</body>
+</html>

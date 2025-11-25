@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Chi tiết Sách</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{bookdetail.title}"></strong>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill p-4">
+                        <div class="row">
+                            <!-- Cột ảnh bìa -->
+                            <div class="col-md-4 text-center">
+                                <img src="/public/images/default-avatar.png" alt="Book Cover" class="img-detail rounded shadow">
+                            </div>
+
+                            <!-- Cột thông tin sách -->
+                            <div class="col-md-8">
+                                <h2>Tên sách</h2>
+                                <p class="mb-1">
+                                    <strong th:text="#{book.detail.author} + ':'"></strong>
+                                    <span>Tên tác giả</span>
+                                </p>
+                                <p class="mb-1">
+                                    <strong th:text="#{book.detail.publisher} + ':'"></strong>
+                                    <span>NXB</span>
+                                </p>
+                                <p class="mb-3">
+                                    <strong th:text="#{book.detail.publishedDate} + ':'"></strong>
+                                    <span>01/01/2023</span>
+                                </p>
+
+                                <h5 th:text="#{book.detail.description}"></h5>
+                                <p>
+                                    Đây là phần mô tả về cuốn sách, nội dung hiển thị ở đây.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bảng danh sách phiên bản sách -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4 th:text="#{book.detail.versionList}"></h4>
+                                <table class="table table-bordered table-striped align-middle">
+                                    <thead class="table-dark">
+                                    <tr>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.index}"></th>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.code}"></th>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.language}"></th>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.format}"></th>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.quantity}"></th>
+                                        <th class="d-none d-xl-table-cell text-center" th:text="#{book.version.status}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="d-none d-xl-table-cell text-center">1</td>
+                                        <td class="d-none d-xl-table-cell text-center">B001-VN</td>
+                                        <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
+                                        <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
+                                        <td class="d-none d-xl-table-cell text-center">50</td>
+                                        <td class="d-none d-xl-table-cell text-center">
+                                            <span class="badge bg-danger">Đã mất</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="d-none d-xl-table-cell text-center">1</td>
+                                        <td class="d-none d-xl-table-cell text-center">B002-VN</td>
+                                        <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
+                                        <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
+                                        <td class="d-none d-xl-table-cell text-center">50</td>
+                                        <td class="d-none d-xl-table-cell text-center">
+                                            <span class="badge bg-success">Còn sách</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="d-none d-xl-table-cell text-center">1</td>
+                                        <td class="d-none d-xl-table-cell text-center">B003-VN</td>
+                                        <td class="d-none d-xl-table-cell text-center">Tiếng Việt</td>
+                                        <td class="d-none d-xl-table-cell text-center">Bìa cứng</td>
+                                        <td class="d-none d-xl-table-cell text-center">50</td>
+                                        <td class="d-none d-xl-table-cell text-center">
+                                            <span class="badge bg-warning">Đang được mượn</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

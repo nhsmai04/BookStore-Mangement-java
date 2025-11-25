@@ -1,0 +1,79 @@
+body {
+    font-family: 'Roboto' !important;
+}
+
+/* Sidebar chiếm cố định bên trái */
+.sidebar-wrapper {
+    padding: 0px !important;
+    width: 220px;
+    min-height: calc(100vh - 56px); /* trừ chiều cao header */
+}
+
+/* Content chiếm phần còn lại */
+.main-content {
+    padding-top: 40px;
+    flex: 1 !important;
+    min-height: calc(100vh);
+    background-color: var(--color-light);
+}
+
+
+/* Nếu sidebar cố định, có thể dùng position fixed */
+@media (min-width: 992px) {
+    .sidebar-wrapper {
+        position: fixed;
+        top: 56px;   /* bằng chiều cao header */
+        left: 0;
+        height: calc(100vh - 56px);
+    }
+    .has-sidebar {
+        margin-left: 220px;
+    }
+}
+
+.pagination .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    color: var(--color-normal) !important;
+    background-color: color-mix(in srgb, var(--color-light), white 50%) !important;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--color-light) !important;
+    text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-normal);
+    color: #fff;
+    border-color: var(--color-normal);
+}
+.badge.bg-success {
+    background-color: var(--color-normal) !important;
+}
+.btn-primary {
+    --bs-btn-border-color:: var(--color-normal) !important;
+    --bs-btn-bg: var(--color-normal) !important;
+    --bs-btn-hover-bg: var(--color-normal-hover) !important;
+}
+.btn-secondary {
+    background-color: var(--color-light-active) !important;
+    --bs-btn-border-color: var(--color-light-active) !important;
+    --bs-btn-hover-border-color: var(--color-light-active) !important;
+    color: var(--color-darker) !important;
+}
+
+.img-detail{
+    width: 200px;
+    height: 200px;
+}
+
+.table-dark {
+    --bs-table-bg: var(--color-dark) !important;
+}

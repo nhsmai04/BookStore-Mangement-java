@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+<div th:fragment="sidebar">
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand navbar-light">
+                <ul class="navbar-nav flex-column w-100">
+                    <!-- Divider -->
+                    <li class="nav-divider">Quản lý</li>
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${activeMenu == 'users'} ? 'active'"
+                           th:href="@{/admin/dashboard}">
+                            <i class="fa-solid fa-chart-line"></i>Thống kê
+                        </a>
+                    </li>
+
+                    <!-- Book -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#submenu-book"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="submenu-book">
+                            <i class="fa-solid fa-book"></i>Sách
+                            <i class="fa fa-fw fa-chevron-down ms-auto"></i>
+                        </a>
+                        <div id="submenu-book" class="collapse">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/admin/books}">
+                                        Tất cả sách
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/admin/borrow-requests}">
+                                        Yêu cầu mượn sách
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/genres}">
+                            <i class="fa-solid fa-tag"></i>Thể loại
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/users}">
+                            <i class="fas fa-fw fa-users"></i>Người dùng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/authors}">
+                            <i class="fa-solid fa-pen-nib"></i>Tác giả
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/publishers}">
+                            <i class="fa-solid fa-building"></i>Nhà xuất bản
+                        </a>
+                    </li>
+
+                    <!-- Divider -->
+                    <li class="nav-divider">Hệ thống</li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/setting}">
+                            <i class="fa-solid fa-gear"></i>Cài đặt chung
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/system}">
+                            <i class="fa-solid fa-shield-halved"></i>Quản lý hệ thống
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

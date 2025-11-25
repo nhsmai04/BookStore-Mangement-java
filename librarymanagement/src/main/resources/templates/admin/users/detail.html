@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Chi tiết Người dùng</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{userdetail.title}"></strong>
+                </h1>
+                <!-- Button chặn / bỏ chặn -->
+                <form method="post">
+                    <button type="submit" class="btn btn-danger"
+                            th:text="Chặn">
+                    </button>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill p-4">
+                        <div class="row mb-3">
+                            <!-- Avatar -->
+                            <div class="col-md-3 text-center">
+                                <img src="/public/images/default-avatar.png" alt="Avatar"
+                                     class="rounded-circle img-detail"
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                            </div>
+                            <!-- Thông tin -->
+                            <div class="col-md-9">
+                                <h3 class="mb-3">Bang Nguyễn Quỳnh Anh</h3>
+                                <p><strong th:text="#{user.username} + ':'"></strong> <span>Bangnguyenquynhanh</span></p>
+                                <p><strong th:text="#{user.email} + ':'"></strong> <span>Bangnguyenquynhanh@gmail.com</span></p>
+                                <p><strong th:text="#{user.phone} + ':'"></strong> <span>0999999999</span></p>
+                                <p>
+                                    <strong th:text="#{user.status} + ':'"></strong>
+                                    <span class="badge bg-success">Hoạt động</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Danh sách sách đã mượn -->
+                        <h4 class="mt-4" th:text="#{user.borrowedBooks}"></h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.title}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.author}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.borrowDate}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.returnDate}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.status}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.reviewed}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="d-none d-xl-table-cell text-center">Lập trình Python</td>
+                                    <td class="d-none d-xl-table-cell text-center">Lý Tuấn Văn</td>
+                                    <td class="d-none d-xl-table-cell text-center">18/8/2025</td>
+                                    <td class="d-none d-xl-table-cell text-center">01/9/2025</td>
+                                    <td class="d-none d-xl-table-cell text-center">
+                                        <span class="badge bg-warning">Đang mượn</span>
+                                    </td>
+                                    <td class="d-none d-xl-table-cell text-center">
+                                        <span class="badge bg-warning">Chưa đánh giá</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-none d-xl-table-cell text-center">Lập trình Python</td>
+                                    <td class="d-none d-xl-table-cell text-center">Lý Tuấn Văn</td>
+                                    <td class="d-none d-xl-table-cell text-center">18/8/2025</td>
+                                    <td class="d-none d-xl-table-cell text-center">01/9/2025</td>
+                                    <td class="d-none d-xl-table-cell text-center">
+                                        <span class="badge bg-success">Đã trả</span>
+                                    </td>
+                                    <td class="d-none d-xl-table-cell text-center">
+                                        <span class="badge bg-success">Đã đánh giá</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

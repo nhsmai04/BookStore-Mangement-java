@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head layout:fragment="head">
+    <title>Chi tiết Tác giả</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content">
+        <div class="container-fluid p-0">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 mb-0">
+                    <strong th:text="#{authordetail.title}"></strong>
+                </h1>
+                <!-- Button chặn / bỏ chặn -->
+                <form method="post">
+                    <button type="submit" class="btn btn-danger"
+                            th:text="Chặn">
+                    </button>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill p-4">
+                        <div class="row mb-3">
+                            <!-- Avatar -->
+                            <div class="col-md-3 text-center">
+                                <img src="/public/images/default-avatar.png" alt="Avatar"
+                                     class="rounded-circle img-detail"
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                            </div>
+                            <!-- Thông tin -->
+                            <div class="col-md-9">
+                                <h3 class="mb-3">Nguyễn Minh Khoa</h3>
+                                <p><strong th:text="#{author.bio} + ':'"></strong></p>
+                                <p>
+                                    Nguyễn Minh Khoa là một kỹ sư phần mềm và giảng viên lập trình với hơn 15 năm kinh nghiệm trong lĩnh vực phát triển ứng dụng Java.
+                                    Anh từng làm việc cho nhiều tập đoàn công nghệ tại Singapore và Nhật Bản, nơi anh tham gia thiết kế hệ thống ngân hàng trực tuyến và các ứng dụng thương mại điện tử quy mô lớn.
+                                </p>
+                                <p>
+                                    Khoa đặc biệt quan tâm đến <em>Java Core</em>, <em>Spring Framework</em>, và các kiến trúc <em>microservices</em>.
+                                    Anh cũng là diễn giả quen thuộc tại nhiều hội thảo công nghệ trong khu vực Đông Nam Á.
+                                </p>
+                                <p>
+                                    Ngoài công việc giảng dạy tại các trường đại học công nghệ, anh còn là tác giả của nhiều bài viết kỹ thuật trên các tạp chí lập trình và blog cá nhân.
+                                </p>
+                                <p>
+                                    Trong thời gian rảnh, anh thích đọc sách về kiến trúc phần mềm, đi trekking, và chia sẻ kiến thức trên kênh YouTube cá nhân về lập trình.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Danh sách sách đã mượn -->
+                        <h4 class="mt-4" th:text="#{author.books}"></h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.title}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.publisher}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.daypublisher}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.role}"></th>
+                                    <th class="d-none d-xl-table-cell text-center" th:text="#{book.count}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="d-none d-xl-table-cell text-center">Lập trình Python</td>
+                                    <td class="d-none d-xl-table-cell text-center">Nhà xuất bản Kim Đồng</td>
+                                    <td class="d-none d-xl-table-cell text-center">01/9/2023</td>
+                                    <td class="d-none d-xl-table-cell text-center">Đồng tác giả</td>
+                                    <td class="d-none d-xl-table-cell text-center">30</td>
+                                </tr>
+                                <tr>
+                                    <td class="d-none d-xl-table-cell text-center">Lập trình Java</td>
+                                    <td class="d-none d-xl-table-cell text-center">Nhà xuất bản Kim Đồng</td>
+                                    <td class="d-none d-xl-table-cell text-center">01/9/2021</td>
+                                    <td class="d-none d-xl-table-cell text-center">Tác giả chính</td>
+                                    <td class="d-none d-xl-table-cell text-center">30</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
