@@ -100,3 +100,16 @@ Library Management System là hệ thống backend quản lý thư viện đư�
 ```bash
 git clone https://github.com/your-username/library-management-system.git
 cd library-management-system
+
+### 2. Cấu hình database
+Tạo database MySQL:
+```bash
+CREATE DATABASE library_management;
+Cập nhật file application.properties:
+```bash
+spring.datasource.url=jdbc:mysql://localhost:3306/library_management
+spring.datasource.username=root
+spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
