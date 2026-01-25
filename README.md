@@ -131,8 +131,8 @@ Mail config
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=yourmail@gmail.com
-spring.mail.password=uvvd sfhv miem grsfspring.mail.password=uvvd sfhv miem grsf
-spring.mail.protocol=smtp
+spring.mail.password=uvvd sfhv miem grsfspring.mail.password=uvvd sfhv miem grsfspring.mail.password=uvvd sfhv miem grsfspring.mail.password=uvvd sfhv miem grsf
+spring.mail.protocol=smtpspring.mail.protocol=smtp
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 ```
@@ -140,3 +140,21 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 ```bash
 mvn clean install
 ```
+## Api:
+Truy cập postman:
+```bash
+http://localhost:8080/api/books/  ## Xem tất cả sách
+http://localhost:8080/api/auth/register ## Đăng ký người dùng
+http://localhost:8080/api/auth/login ## Đăng nhập
+http://localhost:8080/api/borrow-requests/borrow ## Mượn sách
+```
+## Admin website:
+Truy cập Url:
+```bash
+http://localhost:8080/admin/auth/login ## Đăng nhập vào trang admin
+```
+Lưu ý:
+Cần phải tạo người dùng và set role = 1 hoặc 3 trong database (ADMIN hoặc MANAGER) mới truy câp được trang
+
+### Contact
+Mọi thắc mắc xin liên hệ mail mr.nguyenhandsome04@gmail.com
