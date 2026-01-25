@@ -127,12 +127,16 @@ spring.mvc.hiddenmethod.filter.enabled=true
 spring.flyway.baseline-on-migrate=true
 ```
 Mail config
----bash
+```bash
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=yourmail@gmail.com
-spring.mail.password=uvvd sfhv miem grsf
+spring.mail.password=uvvd sfhv miem grsfspring.mail.password=uvvd sfhv miem grsf
 spring.mail.protocol=smtp
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+```
+### 2. Chạy ứng dụng
+```bash
+mvn clean install
 ```
