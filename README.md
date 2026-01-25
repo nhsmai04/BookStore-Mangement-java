@@ -100,16 +100,39 @@ Library Management System là hệ thống backend quản lý thư viện đư�
 ```bash
 git clone https://github.com/your-username/library-management-system.git
 cd library-management-system
+```
 
 ### 2. Cấu hình database
 Tạo database MySQL:
 ```bash
 CREATE DATABASE library_management;
+``````
 Cập nhật file application.properties:
 ```bash
 spring.datasource.url=jdbc:mysql://localhost:3306/library_management
 spring.datasource.username=root
 spring.datasource.password=your_password
-
-spring.jpa.hibernate.ddl-auto=update
+``````
+JPA config:
+```bash
+spring.jpa.hibernate.ddl-auto=updatespring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.thymeleaf.prefix=classpath:/templates/spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.htmlspring.thymeleaf.suffix=.html
+```
+Web config:
+```bash
+spring.mvc.hiddenmethod.filter.enabled=true
+spring.flyway.baseline-on-migrate=true
+```
+Mail config
+---bash
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=yourmail@gmail.com
+spring.mail.password=uvvd sfhv miem grsf
+spring.mail.protocol=smtp
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+```
